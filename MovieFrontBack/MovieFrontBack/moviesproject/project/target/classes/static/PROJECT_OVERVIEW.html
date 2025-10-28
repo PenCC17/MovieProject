@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movies Project — Overview</title>
+  <style>
+    body{font-family:Segoe UI, Roboto, Arial, sans-serif;margin:24px;color:#222}
+    h1,h2,h3{color:#0b5ed7}
+    pre{background:#f6f8fa;border:1px solid #e1e4e8;padding:12px;overflow:auto}
+    .file-tree{font-family:monospace;white-space:pre}
+    .snippet{margin-bottom:20px}
+    .meta{color:#555;font-size:0.95rem}
+  </style>
+</head>
+<body>
+  <h1>Movies Project — Overview</h1>
+  <p class="meta">Generated: October 17, 2025 — A lightweight single-file overview of the Java Spring Boot project.</p>
+
+  <h2>Repository layout</h2>
+  <div class="file-tree">
+members/
+README.md
+User Stories/
+project/
+    HELP.md
+    mvnw
+    mvnw.cmd
+    pom.xml
+    src/
+        main/
+            java/
+                com.example.project/
+                    ProjectApplication.java
+                    Controller/Controller.java
+                    Entity/Account.java
+                    Entity/Movie.java
+                    Entity/Review.java
+                    Repository/AccountRepository.java
+                    Repository/MovieRepository.java
+                    Repository/ReviewRepository.java
+                    Service/AccountService.java
+                    Service/MovieService.java
+                    Service/ReviewService.java
+        resources/
+            application.properties
+    test/
+        java/...
+    target/...
+  </div>
+
+  <h2>High-level summary</h2>
+  <p>This is a Spring Boot (Java 17) REST API for a movies/reviews system. It uses Spring Web, Spring Data JPA, H2/MySQL connectors and Lombok. Main responsibilities:
+  <ul>
+    <li>Account management (register/login)</li>
+    <li>Movie CRUD basics (list, add, lookup)</li>
+    <li>Review submission, listing and editing</li>
+  </ul>
+  </p>
+
+  <h2>Key files and snippets</h2>
+
+  <div class="snippet">
+    <h3>ProjectApplication.java</h3>
+    <p class="meta">Spring Boot application entry point.</p>
+    <pre><code>package com.example.project;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProjectApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ProjectApplication.class, args);
+    }
+
+}
+</code></pre>
+  </div>
+
+  <div class="snippet">
+    <h3>Controller — REST endpoints</h3>
+    <p class="meta">Handles account endpoints, movie listing and review operations.</p>
+    <pre><code>// selected controller methods (full file in source)
+@RestController
+public class Controller {
+    // injected services
+    public Controller(AccountService accountService, MovieService movieService, ReviewService reviewService) { ... }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> userLogin(@RequestBody Account account){ ... }
+
+    @PostMapping("/register")
+    public ResponseEntity<Account> userRegistration(@RequestBody Account account){ ... }
+
+    @GetMapping("/movie")
+    public ResponseEntity<List<Movie>> getAllMovies(){ ... }
+
+    @PostMapping("/movie/add")
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie){ ... }
+
+    @PostMapping("/reviews/movie")
+    public ResponseEntity<Review> submitReview(@RequestBody Review rev) { ... }
+}
+</code></pre>
+  </div>
+
+  <div class="snippet">
+    <h3>Entities</h3>
+    <p class="meta">Domain model using JPA annotations and Lombok for boilerplate.</p>
+
+    <h4>Account</h4>
+    <pre><code>@Entity @Table(name="account")
+public class Account {
+    @NotBlank @Size(min=3,max=20) String username;
+    @NotBlank @Size(min=6,max=40) String password;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long accountId;
+}
+</code></pre>
+
+    <h4>Movie</h4>
+    <pre><code>@Entity @Table(name="movie")
+public class Movie {
+    @NotBlank String name;
+    @NotBlank String director;
+    Long releaseYear;
+    @Id @GeneratedValue(strategy=GenerationType.AUTO) private Long movieId;
+}
+</code></pre>
+
+    <h4>Review</h4>
+    <pre><code>@Entity @Table(name="review")
+public class Review {
+    @ManyToOne @JoinColumn(name="account_id") Account accountId;
+    @ManyToOne @JoinColumn(name="movie_id") Movie movieId;
+    @Size(max=255) String reviewText;
+    Integer rating;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long reviewId;
+}
+</code></pre>
+  </div>
+
+  <div class="snippet">
+    <h3>Repositories</h3>
+    <p class="meta">Spring Data JPA repository interfaces providing query methods.</p>
+    <pre><code>// examples
+public interface AccountRepository extends JpaRepository<Account, Long> {
+    Account findByUsernameAndPassword(String username, String password);
+    Account findByUsername(String username);
+}
+
+public interface MovieRepository extends JpaRepository<Movie, Long> {
+    Movie findByName(String name);
+    List<Movie> findByDirector(String director);
+}
+
+public interface ReviewRepository extends JpaRepository<Review, Long>{
+    List<Review> findReviewByAccountId(Account account);
+    List<Review> findReviewByMovieId(Movie movie);
+}
+</code></pre>
+  </div>
+
+  <div class="snippet">
+    <h3>Services</h3>
+    <p class="meta">Service layer coordinating repository operations.</p>
+    <pre><code>// AccountService highlights
+public class AccountService {
+    public Account register(Account acc){ return accountRepository.save(acc); }
+    public Account Login(Account acc){ return accountRepository.findByUsernameAndPassword(...); }
+}
+
+// MovieService & ReviewService similarly wrap repository calls.
+</code></pre>
+  </div>
+
+  <div class="snippet">
+    <h3>pom.xml (dependencies)</h3>
+    <p class="meta">Project uses Spring Boot (starter parent 3.5.6) with web, data-jpa, validation, actuator, Lombok and H2/MySQL drivers.</p>
+    <pre><code>... spring-boot-starter-web, spring-boot-starter-data-jpa, spring-boot-starter-validation,
+    spring-boot-starter-actuator, lombok, h2, mysql-connector-j ...
+</code></pre>
+  </div>
+
+  <h2>Notes & next steps</h2>
+  <ul>
+    <li>The HTML is a simple snapshot for documentation and onboarding.</li>
+    <li>Consider adding API examples (curl/postman) and a UML class diagram for clarity.</li>
+    <li>Optionally generate Javadoc or Swagger/OpenAPI documentation for the controllers.</li>
+  </ul>
+
+  <footer style="margin-top:40px;color:#666;font-size:0.9rem">Generated by a workspace script — contains extracted snippets from source files.</footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+User Story:
+
+"As a visitor, I want to register for an account using a username and password so that I can post reviews and rate movies"
+Error message if duplicate usernames. 
+Successful login/registration redirects to login page.
+Priority: 13.3 (Low-priority)
+
+"As a registered user, I want to be able to login so that I can access my account and review movies."
+Invalid Credentials drop an error message
+Successful login redirects to home or movies webpage.
+Priority: 40 (Average) 
+
+"As a visitor, I want to be able to browse the movie selections and look at info about each specific movie"
+Get a list of available Movies 
+Retrieve database information  about each specific movie
+Priority: 23.3 (Average)
+
+"As a user, I want to write and submit a review with a rating (1-5 stars) so that I can share my opinion on a movie."
+Reviews must include a rating and optional comment.
+Users cannot post multiple reviews for the same movie.
+Priority: 140 (High-priority) 
+
+"As a user, I want to see all the reviews a specific user has made"
+Persist a database with users review
+Select a user and get all the reviews 
+Priority: 7 (Low-priority) 
+
+"As a user, I want to edit or delete my review so that I can correct or remove my opinion at a later time" 
+Allow author to edit/delete review
+Change updates immediately in movies review list
+Priority: 75 (High-priority)
