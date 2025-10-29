@@ -65,7 +65,8 @@ function Home() {
     // Placeholder action: navigate to a route or open a page.
     // For now we'll navigate to / (replace with real route later) and show an alert.
     // Example: navigate(`/category/${item.id}`)
-    alert(`Clicked: ${item.name}`)
+    navigate(`/movieInfo/${item.name}/${item.movieId}`);
+    //alert(`Clicked: ${item.name}`)
   }
 
   function onKey(e, item) {
@@ -73,6 +74,11 @@ function Home() {
       e.preventDefault()
       handleActivate(item)
     }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    setUser(null);
   }
 
   return (
@@ -102,6 +108,11 @@ function Home() {
 }
 
 function App() {
+  function handleLogout() {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+    
+  }
   return (
     <BrowserRouter>
       <header className="taskbar">
@@ -114,7 +125,7 @@ function App() {
               {localStorage.getItem("token") ? (
                 <>
                   <li>Welcome, User</li>
-                  {/* <li><button onClick={handleLogout}>Logout</button></li> */}
+                  <li><button onClick={handleLogout} className="nav-link logout-button">Logout</button></li>
                 </>
               ) : (
                 <>
@@ -133,7 +144,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/movieInfo" element={<MovieInfo />} />
+          <Route path="/movieInfo/:name/:movieId" element={<MovieInfo />} />
         </Routes>
       </main>
     </BrowserRouter>
