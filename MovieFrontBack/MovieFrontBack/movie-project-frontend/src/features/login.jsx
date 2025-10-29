@@ -29,6 +29,7 @@ export default function Login() {
 		} catch (err) {
 			setError(err.response?.data?.message || 'Login failed. Please check your credentials.')
 		}
+		window.location.href = "/";
 	}
 
 	return (
@@ -68,3 +69,4 @@ export default function Login() {
 		</section>
 	)
 }
+
