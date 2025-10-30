@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-do
 import Login from './features/login'
 import Register from './features/register'
 import MovieInfo from './features/movieInfo'
+import UserReviews from './features/userReviews'
 import reactLogo from './assets/react.svg'
 import axios from 'axios';
 
@@ -126,6 +127,7 @@ function App() {
                 <>
                   <li>Welcome, User</li>
                   <li><button onClick={handleLogout} className="nav-link logout-button">Logout</button></li>
+                  <li><Link to="/userReviews" className="nav-link">User Reviews</Link></li>
                 </>
               ) : (
                 <>
@@ -145,6 +147,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/movieInfo/:name/:movieId" element={<MovieInfo />} />
+          <Route path="/userReviews" element={<UserReviews />} />
         </Routes>
       </main>
     </BrowserRouter>
