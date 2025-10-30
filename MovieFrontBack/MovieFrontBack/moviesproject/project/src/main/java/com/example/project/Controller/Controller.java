@@ -60,6 +60,14 @@ public class Controller {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<String> getAccountByAccountId(@PathVariable Long accountId){ 
+        if (accountService.getAccountById(accountId) == null){
+            return ResponseEntity.status(400).body(null); //No returns as of right now return via status code
+        }
+        return ResponseEntity.ok(accountService.getAccountById(accountId).getUsername());
+    }
+
     @GetMapping("/movie/{name}")
     public ResponseEntity<Movie> getMovieByName(@PathVariable String name){ 
         if (movieService.getMovieByName(name) == null){
@@ -81,16 +89,6 @@ public class Controller {
     public void deleteMovie(@PathVariable Long id){
         movieService.deleteMovie(id);
     }
-
-    // @GetMapping("/movie/{director}")
-    // public ResponseEntity<List<Movie>> getMoviesByDirector(@PathVariable String director){
-    //     return ResponseEntity.ok(movieService.getMoviesByDirector(director));
-    // }
-
-    // @GetMapping("/movie/{releaseYear}")
-    // public ResponseEntity<List<Movie>> getMoviesByReleaseYear(@PathVariable int releaseYear){
-    //     return ResponseEntity.ok(movieService.getMoviesByReleaseYear(releaseYear));
-    // }
 
     //Isaac - Movie Edits- End
 
@@ -122,21 +120,28 @@ public class Controller {
     }
 
     @GetMapping("/reviews/account/{accountId}")
-    public ResponseEntity<List<Review>> getReviewsByAccountID(@PathVariable Long accountId) {
-        if (accountService.getAccountById(accountId) == null) {return ResponseEntity.status(400).body(null);}
-        return ResponseEntity.ok(reviewService.getAllReviewsByAccountId(accountService.getAccountById(accountId)));
+    public ResponseEntity<List<Review>> getReviewsByAccountID(@PathVariable String accountId) {
+        if (accountService.findByUsername(accountId) == null) {return ResponseEntity.status(400).body(null);}
+        return ResponseEntity.ok(reviewService.getAllReviewsByAccountId(accountService.findByUsername(accountId)));
     }
 
     @PutMapping("/reviews/{reviewId}")
-    public ResponseEntity<Review> editReview(@PathVariable Long reviewId, @RequestBody Review rev) {
+    public ResponseEntity<?> editReview(@PathVariable Long reviewId, @RequestBody Review rev) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //get current auth info
         Account currentAccount = accountService.findByUsername(authentication.getName()); //get current account based on auth info
         if (reviewService.getReviewById(reviewId) == null){return ResponseEntity.status(400).body(null);}
         if (reviewService.getReviewById(reviewId).getAccountId() != currentAccount){ //check if the review to be edited belongs to the current account
-            return ResponseEntity.status(403).body(null);
+            return ResponseEntity.status(403).body("Not Found");
         }
         return ResponseEntity.ok(reviewService.editReview(reviewId, rev));
     }
+
+    @DeleteMapping("reviews/delete/{id}")
+    public void deleteReview(@PathVariable Long id){
+        reviewService.deleteReview(id);
+    }
+
     //Tamson ~Review Edit~
 
 }
+
