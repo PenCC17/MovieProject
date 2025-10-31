@@ -130,7 +130,7 @@ public class Controller {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //get current auth info
         Account currentAccount = accountService.findByUsername(authentication.getName()); //get current account based on auth info
         if (reviewService.getReviewById(reviewId) == null){return ResponseEntity.status(400).body(null);}
-        if (reviewService.getReviewById(reviewId).getAccountId() != currentAccount){ //check if the review to be edited belongs to the current account
+        if (reviewService.getReviewById(reviewId).getAccountId() != (currentAccount)){ //check if the review to be edited belongs to the current account
             return ResponseEntity.status(403).body("Not Found");
         }
         return ResponseEntity.ok(reviewService.editReview(reviewId, rev));

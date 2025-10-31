@@ -66,7 +66,7 @@ const MovieInfo = () => {
     setError('');
 
     if (!token) {
-      setError('Please log in to submit a review');
+      alert('You must be logged in to submit a review.');
       return;
     }
 
@@ -99,6 +99,9 @@ const MovieInfo = () => {
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit review')
+    }
+    finally {
+      window.location.reload();
     }
   }
 

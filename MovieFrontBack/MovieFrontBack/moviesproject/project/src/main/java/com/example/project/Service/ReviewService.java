@@ -44,8 +44,8 @@ public class ReviewService {
     }
 
 
-    public void deleteReview(Review rev){
-        reviewRepository.delete(rev);
+    public void deleteReview(Long reviewId){
+        reviewRepository.deleteById(reviewId);;
     }
 
 
