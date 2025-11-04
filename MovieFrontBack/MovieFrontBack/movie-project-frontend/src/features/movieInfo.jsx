@@ -116,15 +116,16 @@ const MovieInfo = () => {
         </div>
         <div className="movie-info">
           <h1>{movie.name}</h1>
-          <p><strong>Director:</strong> {movie.director}</p>
-          <p><strong>Year:</strong> {movie.releaseYear}</p>
+          <h2>Director:</h2>
+          <p><strong>{movie.director}</strong></p>
+          <h2>Year:</h2>
+          <p><strong>{movie.releaseYear}</strong></p>
         </div>
       </div>
 
       {/* Reviews Section */}
       <div className="reviews-section">
-        <h2>Reviews</h2>
-        <h3>Hello </h3>
+        <h2>Create a Review </h2>
         
         {/* Add Review Form */}
         <form onSubmit={handleReviewSubmit} className="review-form">
@@ -148,11 +149,12 @@ const MovieInfo = () => {
             placeholder="Write your review here..."
             required
           />
-          <button type="submit">Submit Review</button>
+          <button type="submit">Submit</button>
         </form>
 
         {/* Reviews List */}
         <div className="reviews-list">
+          <h2>Audience Reviews</h2>
           {reviews.length > 0 ? (
             reviews.map((review, index) => (
               <div key={index} className="review-item">
@@ -164,7 +166,7 @@ const MovieInfo = () => {
                   ))}
                 </div>
                 <p className="review-text">{review.reviewText}</p>
-                <p className="review-username">- {review.accountId.username}</p>
+                <p className="review-username">by <strong>{review.accountId.username}</strong> </p>
               </div>
             ))
           ) : (

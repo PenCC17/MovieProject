@@ -69,8 +69,8 @@ const UserReviews = () => {
 
   return (
     <div>
-      <h1>User Reviews Page</h1>
-        <p>This is where user reviews will be displayed.</p>
+      <h1>Reviews</h1>
+        <p>These are all the reviews you made!</p>
         <div className="reviews-list">
           {reviews.length > 0 ? (
             reviews.map((review) => (
@@ -125,11 +125,11 @@ const UserReviews = () => {
                       ))
                     )}
                   </div>
-                  <p className="review-text">{review.reviewText}</p>
-                  <p className="review-username">- {review.accountId.username}</p>
-                  <div className="review-actions" style={{ marginTop: '10px' }}>
-                    <button onClick={() => deleteItem(review.reviewId)} style={{ marginRight: '10px' }}>Delete</button>
-                    <button onClick={() => handleEditClick(review)}>Edit</button>
+                  <p className="review-text" style={{ marginTop: '20px' }}>{review.reviewText}</p>
+                  {/* <p className="review-username">- {review.accountId.username}</p> */}
+                  <div className="review-actions" style={{ marginTop: '50px' }}>
+                    <button onClick={() => deleteItem(review.reviewId)} className="delete-button">Delete</button>
+                    <button onClick={() => handleEditClick(review)} className="edit-button">Edit</button>
                   </div>
                 </div>
               </div>

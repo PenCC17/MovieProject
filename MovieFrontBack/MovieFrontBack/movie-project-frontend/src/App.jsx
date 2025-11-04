@@ -77,15 +77,15 @@ function Home() {
     }
   }
 
-  function handleLogout() {
+  /* function handleLogout() {
     localStorage.removeItem("token");
     setUser(null);
-  }
+  } */
 
   return (
     <section className="home">
       <h1>Welcome to the Movie App</h1>
-      <p>Pick a category:</p>
+      <p>Select a Movie</p>
 
       <div className="figures-grid">
         {movies.map((it) => (
@@ -99,7 +99,16 @@ function Home() {
             aria-pressed="false"
           >
             {/* <img src={Coraline} alt={it.name} /> */}
-            <img src={`/posterImages/${it.name}.jpg`} alt={it.name} />
+            <img 
+              src={`/posterImages/${it.name}.jpg`} 
+              alt={it.name}
+              style={{ 
+                      width: '220px', 
+                      height: '280px', 
+                      objectFit: 'cover', 
+                      borderRadius: '8px',
+                      border: '2px solid #333'    
+                    }} />
             <figcaption>{it.name}</figcaption>
           </figure>
         ))}
@@ -109,11 +118,29 @@ function Home() {
 }
 
 function App() {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   function handleLogout() {
     localStorage.removeItem("token");
     window.location.href = "/";
-    
   }
+
+  function toggleDropdown() {
+    setDropdownOpen(!dropdownOpen);
+  }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownOpen && !event.target.closest('.dropdown')) {
+        setDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
+
   return (
     <BrowserRouter>
       <header className="taskbar">
@@ -122,21 +149,23 @@ function App() {
             <Link to="/" className="nav-link brand">Home</Link>
           </div>
           <div className="nav-right">
-            <ul>
-              {localStorage.getItem("token") ? (
-                <>
-                  <li>Welcome, User</li>
-                  <li><button onClick={handleLogout} className="nav-link logout-button">Logout</button></li>
-                  <li><Link to="/userReviews" className="nav-link">User Reviews</Link></li>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="nav-link">Login</Link>
-                  <Link to="/register" className="nav-link">Register</Link>
-
-                </>
-              )}
-            </ul>
+            {localStorage.getItem("token") ? (
+              <div className="dropdown">
+                <button className="dropbtn" onClick={toggleDropdown}>
+                  <span className="user-icon">👤</span>
+                </button>
+                <div className={`dropdown-content ${dropdownOpen ? 'show' : ''}`}>
+                  <span>Welcome!</span>
+                  <Link to="/userReviews" onClick={() => setDropdownOpen(false)}>Reviews</Link>
+                  <button onClick={() => {handleLogout(); setDropdownOpen(false);}}>Logout</button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="nav-link">Login</Link>
+                <Link to="/register" className="nav-link">Register</Link>
+              </>
+            )}
           </div>
         </div>
       </header>
