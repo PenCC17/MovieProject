@@ -2,10 +2,10 @@ pipeline {
     agent any
     
     environment {
-        S3_BUCKET = 'your-react-app-bucket'
-        SECRET_BUCKET = 'your-secrets-bucket'
+        S3_BUCKET = 'trng2309-10'
+        SECRET_BUCKET = 'kyles-secret-bucket'
         AWS_REGION = 'us-east-2'
-        DOCKER_IMAGE = 'spring-backend'
+        DOCKER_IMAGE = 'spring-backend-10'
         EXTERNAL_PORT = '8090'
         INTERNAL_PORT = '8080'
     }
@@ -14,13 +14,13 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/your-username/your-repo'
+                    url: 'https://github.com/PenCC17/MovieProject'
             }
         }
         
         stage('Build React Frontend') {
             steps {
-                dir('revagenda-client') {
+                dir('movie-project-frontend') {
                     sh 'npm install'
                     sh 'npm run build'
                 }
@@ -29,7 +29,7 @@ pipeline {
         
         stage('Deploy Frontend to S3') {
             steps {
-                dir('revagenda-client/dist') {
+                dir('movie-project-frontend/dist') {
                     sh 'aws s3 sync . s3://${S3_BUCKET}/ --delete --region ${AWS_REGION}'
                 }
             }
@@ -37,13 +37,13 @@ pipeline {
 
         stage('Fetch Secrets') {
             steps {
-                sh 'aws s3 cp s3://${SECRET_BUCKET}/path/to/application.properties revagenda-server/src/main/resources/'
+                sh 'aws s3 cp s3://${SECRET_BUCKET}/team10/application.properties moviesproject/src/main/resources/'
             }
         }
         
         stage('Build Spring Backend') {
             steps {
-                dir('revagenda-server') {
+                dir('moviesproject') {
                     sh 'mvn clean package -DskipTests'
                 }
             }
