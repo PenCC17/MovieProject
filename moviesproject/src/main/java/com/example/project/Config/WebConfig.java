@@ -13,11 +13,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
-                        .allowedOrigins("http://trng2309-10.s3-website.us-east-2.amazonaws.com/register")
-                        .allowedOrigins("http://localhost:8080/register")
-                        .allowedOrigins("http://localhost:8090")
-                        .allowedOrigins("http://localhost:8080/register")
+                        .allowedOrigins("http://localhost:5173", "http://trng2309-10.s3-website.us-east-2.amazonaws.com/")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowCredentials(true);
                         
