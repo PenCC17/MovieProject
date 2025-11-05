@@ -5,7 +5,7 @@ import Login from './features/login'
 import Register from './features/register'
 import MovieInfo from './features/movieInfo'
 import UserReviews from './features/userReviews'
-import reactLogo from './assets/react.svg'
+import AddMovie from './features/addMovie'
 import axios from 'axios';
 
 import { useEffect, useState } from 'react';
@@ -125,6 +125,9 @@ function App() {
             <ul>
               {localStorage.getItem("token") ? (
                 <>
+                {localStorage.getItem("userRole") === "ADMIN" && (
+                  <li><Link to="/addMovie" className="nav-link">Add Movie</Link></li>
+                )}
                   <li>Welcome, User</li>
                   <li><button onClick={handleLogout} className="nav-link logout-button">Logout</button></li>
                   <li><Link to="/userReviews" className="nav-link">User Reviews</Link></li>
@@ -148,6 +151,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/movieInfo/:name/:movieId" element={<MovieInfo />} />
           <Route path="/userReviews" element={<UserReviews />} />
+          <Route path="/addMovie" element={<AddMovie />} />
         </Routes>
       </main>
     </BrowserRouter>

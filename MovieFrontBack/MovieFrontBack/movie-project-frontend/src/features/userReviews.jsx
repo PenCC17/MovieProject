@@ -16,11 +16,19 @@ const UserReviews = () => {
 
         const decoded = jwtDecode(token);
 
-        const fetchData = async() => {axios.get(`http://localhost:8081/reviews/account/${decoded.sub}`)
-      .then(response => {
-        setReviews(response.data);
-      })}
-      fetchData();
+        const fetchData = async() => {
+            try {
+                const response = await axios.get(`http://localhost:8081/reviews/account/${decoded.sub}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setReviews(response.data);
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        }
+        fetchData();
     }, []);
 
 
@@ -53,20 +61,30 @@ const UserReviews = () => {
 
 
     const deleteItem = async (itemId) => {
-    try {
-        const response = await axios.delete(`http://localhost:8081/reviews/delete/${itemId}`); // Replace with your API endpoint
-        console.log('Item deleted successfully:', response.data);
+        const token = localStorage.getItem("token");
+        if (!token) return;
         
-        // Handle successful deletion (e.g., refresh data, display success message)
-    } catch (error) {
-        console.error('Error deleting item:', error);
-        // Handle error (e.g., display error message)
-    }
-    finally {
-      window.location.reload();
-    }
-  }
+        try {
+            const response = await axios.delete(`http://localhost:8081/reviews/delete/${itemId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('Item deleted successfully:', response.data);
+            
+            // Handle successful deletion (e.g., refresh data, display success message)
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            // Handle error (e.g., display error message)
+        }
+        finally {
+          window.location.reload();
+        }
+    };
 
+    
+
+    
   return (
     <div>
       <h1>User Reviews Page</h1>

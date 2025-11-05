@@ -23,6 +23,8 @@ public class Movie {
     // @Min(value = 1888, message = "Earliest movie is 1888!")
     Long releaseYear;
     
+    String posterImage; // Stores the filename of the poster image
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +34,13 @@ public class Movie {
         this.name = name;
         this.director = director;
         this.releaseYear = releaseYear;
+    }
+
+    public Movie(String name, String director, Long releaseYear, String posterImage) {
+        this.name = name;
+        this.director = director;
+        this.releaseYear = releaseYear;
+        this.posterImage = posterImage;
     }
 
    

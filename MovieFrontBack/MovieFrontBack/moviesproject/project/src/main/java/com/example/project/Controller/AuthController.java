@@ -11,12 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
  
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -37,7 +39,7 @@ public class AuthController {
             String jwt = jwtUtil.generateToken(loginRequest.getUsername()); // Generate JWT upon successful authentication
             Account account = accountService.findByUsername(loginRequest.getUsername()); // Fetch account details
 
-            return ResponseEntity.ok(new LoginResponse(jwt, account.getUsername(), account.getAccountId())); // Return JWT and user details
+            return ResponseEntity.ok(new LoginResponse(jwt, account.getUsername(), account.getAccountId(), account.getRole().name())); // Return JWT and user details with role
         } catch (BadCredentialsException e) { // Handle authentication failure
             return ResponseEntity.status(401).body(new ErrorResponse("Unsuccessful Login"));
         }
@@ -55,6 +57,7 @@ public static class LoginResponse {
     private String token;
     private String username;
     private Long accountId;
+    private String role;
 }
 
 @Getter @AllArgsConstructor

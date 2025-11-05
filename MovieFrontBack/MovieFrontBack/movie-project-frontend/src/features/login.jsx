@@ -22,6 +22,7 @@ export default function Login() {
 			// Save auth token if your backend returns one
 			if (response.data.token) {
 				localStorage.setItem('token', response.data.token)
+				localStorage.setItem('userRole', response.data.role) // Save user role from response
 			}
 			
 			// Navigate to home page after successful login

@@ -21,6 +21,10 @@ public class Account {
     @NotBlank
     String password;
     
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.USER; // Default role
+    
     @Column(name="accountId")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +34,13 @@ public class Account {
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
+        this.role = Role.USER; // Default role for new accounts
+    }
+
+    public Account(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
    

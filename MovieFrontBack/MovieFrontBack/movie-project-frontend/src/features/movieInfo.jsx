@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios'
-import Coraline from '/posterImages/Coraline.jpg';
 import { useParams } from "react-router-dom";
 ///reviews/movie/{movieId}
 
