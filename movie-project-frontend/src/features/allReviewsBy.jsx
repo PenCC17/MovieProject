@@ -10,7 +10,7 @@ const AllReviewsBy  = () => {
     const { username } = useParams();
 
     useEffect(() => {
-    axios.get(`http://localhost:8081/reviews/account/${username}`)
+    axios.get(`http://localhost:8080/reviews/account/${username}`)
       .then(response => {
         setReviews(response.data);
       })

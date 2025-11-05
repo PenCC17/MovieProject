@@ -17,7 +17,7 @@ function Home() {
 
   const [user, setUser] = useState(null);
   const [movies, setMovies] = useState([]);
-  const movieURL = 'http://localhost:8081/movie'
+  const movieURL = 'http://localhost:8080/movie'
   const imageNames = ['Coraline.jpg', 
                       'Inception.jpg', 
                       'Interstellar.jpg', 

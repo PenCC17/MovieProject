@@ -13,7 +13,7 @@ export default function Register() {
 		setError('')
 
 		try {
-			await axios.post('http://localhost:8081/register', {
+			await axios.post('http://localhost:8080/register', {
 				username,
 				password
 			})

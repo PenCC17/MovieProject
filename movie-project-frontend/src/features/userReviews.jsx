@@ -16,7 +16,7 @@ const UserReviews = () => {
 
         const decoded = jwtDecode(token);
 
-        const fetchData = async() => {axios.get(`http://localhost:8081/reviews/account/${decoded.sub}`)
+        const fetchData = async() => {axios.get(`http://localhost:8080/reviews/account/${decoded.sub}`)
       .then(response => {
         setReviews(response.data);
       })}
@@ -36,7 +36,7 @@ const UserReviews = () => {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        await axios.put(`http://localhost:8081/reviews/${reviewId}`, editForm, {
+        await axios.put(`http://localhost:8080/reviews/${reviewId}`, editForm, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -54,7 +54,7 @@ const UserReviews = () => {
 
     const deleteItem = async (itemId) => {
     try {
-        const response = await axios.delete(`http://localhost:8081/reviews/delete/${itemId}`); // Replace with your API endpoint
+        const response = await axios.delete(`http://localhost:8080/reviews/delete/${itemId}`); // Replace with your API endpoint
         console.log('Item deleted successfully:', response.data);
         
         // Handle successful deletion (e.g., refresh data, display success message)

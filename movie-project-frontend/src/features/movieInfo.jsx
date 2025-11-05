@@ -17,14 +17,14 @@ const MovieInfo = () => {
   
 
   useEffect(() => {
-    axios.get(`http://localhost:8081/movie/${name}`)
+    axios.get(`http://localhost:8080/movie/${name}`)
       .then(response => {
         setMovie(response.data);
       })
   }, []);
 
   useEffect(() => {
-    const fetchData = async() => {axios.get(`http://localhost:8081/reviews/movie/${movieId}`)
+    const fetchData = async() => {axios.get(`http://localhost:8080/reviews/movie/${movieId}`)
       .then(response => {
         setReviews(response.data);
       })}
@@ -73,7 +73,7 @@ const MovieInfo = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8081/reviews/${name}`,
+        `http://localhost:8080/reviews/${name}`,
         {
           reviewText,
           rating: parseInt(rating)
