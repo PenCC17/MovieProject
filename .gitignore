@@ -67,6 +67,9 @@ application-*.properties
 application.yml
 application-*.yml
 
+# Production configuration with sensitive data
+application-production.properties
+
 # Java IDE files
 .idea/
 *.iws
