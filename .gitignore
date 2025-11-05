@@ -64,7 +64,7 @@ build/
 # Spring Boot
 # \moviesproject\src\main\resources\application.properties
 moviesproject.src.main.resources.application.properties
-application-*.properties
+*.properties
 application.yml
 application-*.yml
 
